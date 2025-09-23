@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Core app
 streamlit==1.36.0
 
@@ -26,3 +27,8 @@ sqlite-utils==3.36
 audio-recorder-streamlit==0.0.8
 
 
+=======
+altair
+pandas
+streamlit
+>>>>>>> 9cac31757d65d38f2a12abd4d8eb47f39f709729
