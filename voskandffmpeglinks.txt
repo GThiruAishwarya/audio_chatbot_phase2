@@ -1,3 +1,2 @@
 FFMPEG_BIN = r"C:\Users\gotte\Downloads\ffmpeg-8.0-essentials_build\ffmpeg-8.0-essentials_build\bin"
 UPLOADS_DIR = "uploads"
-VOSK_MODEL_DIR = "models/vosk-model-small-en-us-0.15"
