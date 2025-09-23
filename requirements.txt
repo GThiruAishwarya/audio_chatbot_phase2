@@ -1,22 +1,15 @@
-# Core app
 streamlit==1.36.0
-
-# NLP + Embeddings
 transformers==4.36.2
 sentence-transformers==2.2.2
+blis==0.7.11
 spacy==3.7.2
-pytextrank==3.3.1
+pytextrank==3.3.0
 nltk==3.8.1
-
-# Speech-to-Text (Whisper)
 torch==2.1.2
 torchaudio==2.1.2
-
-# Audio / Signal Processing
 soundfile==0.12.1
 pydub==0.25.1
-
-# Utils
 python-dotenv==1.0.1
 faiss-cpu==1.8.1
 numpy==1.26.4
+
