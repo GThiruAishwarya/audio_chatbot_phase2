@@ -1,27 +1,13 @@
-# Core
 streamlit==1.36.0
-
-# Whisper ASR
-openai-whisper==20231117
-
-# Summarization
+torch==2.1.2
+torchaudio==2.1.2
+transformers==4.36.2
+sentence-transformers==2.2.2
 spacy==3.7.2
-pytextrank==3.2.5
-transformers==4.41.2
-torch>=2.2.0
-
-# Semantic Search
-faiss-cpu==1.8.0
-
-# NLP & Text
-numpy
-scikit-learn
-
-# Audio processing
+pytextrank==3.3.1
+openai-whisper==20231117
+faiss-cpu==1.7.4
+numpy==1.26.2
+nltk==3.8.1
+soundfile==0.12.1
 pydub==0.25.1
-
-# Database
-sqlalchemy==2.0.30
-
-# Misc
-tqdm
