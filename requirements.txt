@@ -1,13 +1,27 @@
+# Core app
 streamlit==1.36.0
-torch==2.1.2
-torchaudio==2.1.2
+
+# NLP + Embeddings
 transformers==4.36.2
 sentence-transformers==2.2.2
 spacy==3.7.2
 pytextrank==3.3.1
-openai-whisper==20231117
-faiss-cpu==1.7.4
-numpy==1.26.2
 nltk==3.8.1
+
+# Speech-to-Text (Whisper)
+torch==2.1.2
+torchaudio==2.1.2
+openai-whisper==20231117
 soundfile==0.12.1
 pydub==0.25.1
+
+# Vector Search
+faiss-cpu==1.7.4
+numpy==1.26.2
+
+# Database
+sqlite-utils==3.36
+
+# Audio Recorder for Streamlit
+audio-recorder-streamlit==0.0.8
+
