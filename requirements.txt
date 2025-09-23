@@ -25,3 +25,4 @@ sqlite-utils==3.36
 # Audio Recorder for Streamlit
 audio-recorder-streamlit==0.0.8
 
+

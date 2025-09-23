@@ -1,24 +1,60 @@
+# =========================
 # Python
+# =========================
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
+*.pkl
+*.log
 
-# Virtual environments
+# Virtual environment
 venv/
 .env/
+.venv/
 
-# Data & models
-uploads/*
-!uploads/.gitkeep
-models/*
-!models/.gitkeep
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# =========================
+# Streamlit
+# =========================
+.streamlit/secrets.toml
+.streamlit/config.toml
+
+# =========================
+# Local data & cache
+# =========================
+uploads/
+models/
 database.db
+*.sqlite3
+*.db
 
-# OS files
+# Cache directories
+.cache/
+.pytest_cache/
+huggingface/
+transformers_cache/
+torch_cache/
+sentence_transformers/
+
+# =========================
+# OS / IDE files
+# =========================
 .DS_Store
 Thumbs.db
+*.swp
+*.swo
 
-# IDE configs
+# VSCode / PyCharm
 .vscode/
 .idea/
+
+# =========================
+# Build / Dist
+# =========================
+build/
+dist/
+*.egg-info/
+
