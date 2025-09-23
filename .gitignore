@@ -58,3 +58,10 @@ build/
 dist/
 *.egg-info/
 
+venv/
+__pycache__/
+src/uploads/
+*.wav
+*.mp4
+*.mp3
+*.m4a
