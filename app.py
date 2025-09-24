@@ -9,18 +9,15 @@ from nltk.tokenize import sent_tokenize
 
 from src.audio_processing import setup_ffmpeg, text_to_speech, save_audio_bytes, UPLOADS_DIR
 from src.pipeline import process_audio_pipeline
-from src.summarization import summarize_textrank
 from src.semantic_qa import SemanticSearchQA, clean_text_for_training, split_sentences, deduplicate_semantic
 from src.ui_components import render_audio_uploader, render_chat_input
 from src.db_helpers import init_db, insert_sentence, get_all_sentences, clear_db
-
 
 # ================= NLTK SETUP =================
 try:
     find("tokenizers/punkt")
 except LookupError:
     nltk.download("punkt")
-
 
 # =============== CONFIGURATION ================
 DB_PATH = "database.db"
@@ -32,7 +29,6 @@ st.set_page_config(page_title="WeiterEdge - Offline Audio Summarization & Q&A", 
 st.title("💬 WeiterEdge - Offline Audio Summarization & Semantic Q&A")
 
 init_db(DB_PATH)
-
 
 # ========== SESSION STATE VARIABLES ===========
 if "summary" not in st.session_state:
@@ -48,23 +44,19 @@ if "chat_history" not in st.session_state:
 if "voice_recording" not in st.session_state:
     st.session_state.voice_recording = None
 
-
 # ================ HELPERS =====================
 def split_questions(text):
     sentences = sent_tokenize(text)
     questions = [s.strip() for s in sentences if s.strip().endswith("?")]
     return questions if questions else sentences
 
-
 def answer_question(semantic_qa, question):
     return question, semantic_qa.query(question, top_k=3)
-
 
 def answer_questions_parallel(semantic_qa, questions):
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = [executor.submit(answer_question, semantic_qa, q) for q in questions]
         return [f.result() for f in futures]
-
 
 def aggregate_answers(answers, max_length=500):
     """Combine multiple Q&A into a single coherent answer with semantic deduplication."""
@@ -87,22 +79,19 @@ def aggregate_answers(answers, max_length=500):
         final_answer = final_answer[:max_length] + "..."
     return final_answer
 
-
 # ================== UI LAYOUT ==================
 st.sidebar.header("⚙ Settings")
 
 # ✅ Only Whisper available now
 asr_engine = "whisper"
-summarizer_engine = st.sidebar.selectbox("📝 Summarizer:", ["textrank", "bart"], index=0)
+summarizer_engine = st.sidebar.selectbox("📝 Summarizer:", ["bart", "tfidf"], index=0)
 
 tab1, tab2, tab3 = st.tabs(["📤 Upload", "📚 Training", "💬 Interaction"])
-
 
 # ================== UPLOAD ==================
 with tab1:
     st.subheader("Upload Audio File")
     uploaded_file, file_path = render_audio_uploader()
-
 
 # ================== TRAINING ==================
 with tab2:
@@ -114,7 +103,6 @@ with tab2:
         st.session_state.sentences = []
 
         with st.spinner(f"Processing audio using {asr_engine.upper()} + {summarizer_engine.upper()}..."):
-            # ✅ cleaned: no "engine" arg
             results = process_audio_pipeline(file_path, summarizer=summarizer_engine)
             st.session_state.transcript = results["raw_transcript"]
             st.session_state.summary = results["summary"]
@@ -131,24 +119,19 @@ with tab2:
         if st.session_state.transcript:
             cleaned_transcript = clean_text_for_training(st.session_state.transcript)
             sentences = [s.strip() for s in nltk.sent_tokenize(cleaned_transcript) if s.strip()]
-
             for s in sentences:
                 insert_sentence(DB_PATH, s)
-
             st.session_state.sentences = get_all_sentences(DB_PATH)
             st.session_state.semantic_qa.build_index(st.session_state.sentences)
             st.success("✅ Semantic search Q&A engine trained automatically on the new transcript!")
-
 
 if not st.session_state.sentences:
     st.session_state.sentences = get_all_sentences(DB_PATH)
     if st.session_state.sentences:
         st.session_state.semantic_qa.build_index(st.session_state.sentences)
 
-
 # ================== INTERACTION ==================
 with tab3:
-    # ---- Chat Input Bar ----
     text_query, voice_bytes, submit_text, submit_voice, attach_file = render_chat_input()
 
     # ---- Handle Text ----
@@ -163,7 +146,6 @@ with tab3:
     # ---- Handle Voice ----
     if submit_voice and voice_bytes:
         wav_path = save_audio_bytes(voice_bytes)
-        # ✅ cleaned: no "engine" arg
         question_results = process_audio_pipeline(wav_path, summarizer=summarizer_engine)
         question_text = question_results["raw_transcript"]
 
